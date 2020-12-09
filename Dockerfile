@@ -12,7 +12,8 @@ RUN apt-get -y install --no-install-recommends \
     locales \
     cmake \
     ninja-build \
-    gdb
+    gdb \
+    clang-format
 
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen
 
