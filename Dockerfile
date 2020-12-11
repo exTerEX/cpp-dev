@@ -13,10 +13,12 @@ RUN apt-get -y install --no-install-recommends \
     cmake \
     ninja-build \
     gdb \
-    clang-format \
     python3-pip \
     python3-setuptools \
     python3-wheel
+
+RUN apt-get -y autoremove python2 \
+    && rm -rf /etc/python && rm -rf /etc/python2.7
 
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen
 
@@ -29,8 +31,7 @@ RUN wget https://raw.github.com/ohmybash/oh-my-bash/master/tools/install.sh -O -
 
 RUN sudo rm -rf /var/lib/apt/lists/*
 
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1 \
-    && update-alternatives --install /usr/bin/python python /usr/bin/python2 2
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
 ENV PATH="$PATH:/home/${USERNAME}/.local/bin"
 
