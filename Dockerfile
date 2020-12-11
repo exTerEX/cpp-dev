@@ -31,7 +31,8 @@ RUN wget https://raw.github.com/ohmybash/oh-my-bash/master/tools/install.sh -O -
 
 RUN sudo rm -rf /var/lib/apt/lists/*
 
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1 \
+    && update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 
 ENV PATH="$PATH:/home/${USERNAME}/.local/bin"
 
