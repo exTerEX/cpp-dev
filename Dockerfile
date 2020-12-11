@@ -14,7 +14,9 @@ RUN apt-get -y install --no-install-recommends \
     ninja-build \
     gdb \
     clang-format \
-    python-pip
+    python3-pip \
+    python3-setuptools \
+    python3-wheel
 
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen
 
@@ -27,6 +29,14 @@ RUN wget https://raw.github.com/ohmybash/oh-my-bash/master/tools/install.sh -O -
 
 RUN sudo rm -rf /var/lib/apt/lists/*
 
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1 \
+    && update-alternatives --install /usr/bin/python python /usr/bin/python2 2
+
+ENV PATH="$PATH:/home/${USERNAME}/.local/bin"
+
 ENV DEBIAN_FRONTEND=dialog
+
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+ENV PIP_NO_CACHE_DIR=1
 
 CMD []
