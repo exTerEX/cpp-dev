@@ -13,7 +13,8 @@ RUN apt-get -y install --no-install-recommends \
     cmake \
     ninja-build \
     gdb \
-    clang-format
+    clang-format \
+    python-pip
 
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && locale-gen
 
