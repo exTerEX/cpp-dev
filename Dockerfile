@@ -12,10 +12,7 @@ RUN apt-get -y install --no-install-recommends \
     locales \
     cmake \
     ninja-build \
-    gdb \
-    python3-pip \
-    python3-setuptools \
-    python3-wheel
+    gdb
 
 RUN apt-get -y autoremove python2 \
     && rm -rf /etc/python && rm -rf /etc/python2.7
@@ -31,8 +28,10 @@ RUN wget https://raw.github.com/ohmybash/oh-my-bash/master/tools/install.sh -O -
 
 RUN sudo rm -rf /var/lib/apt/lists/*
 
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1 \
-    && update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
+RUN update-alternatives --install /usr/local/bin/python python /usr/bin/python3 1 \
+    && wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py \
+    && python get-pip.py --disable-pip-version-check --no-cache-dir \
+    && rm -f get-pip.py
 
 ENV PATH="$PATH:/home/${USERNAME}/.local/bin"
 
