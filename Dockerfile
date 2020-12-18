@@ -24,6 +24,14 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 
+# Temporary solution while waiting for llvm-8 to be included in buster main
+RUN sudo echo "# deb http://snapshot.debian.org/archive/debian/20201209T232235Z buster-backports main">>/etc/apt/sources.list; \
+    sudo echo "deb http://deb.debian.org/debian buster-backports main">>/etc/apt/sources.list; \
+    sudo apt-get update && sudo apt-get -y install --no-install-recommends clang-format-8 clangd-8; \
+    update-alternatives --install /usr/local/bin/clang-format clang-format /usr/bin/clang-format-8 1; \
+    update-alternatives --install /usr/local/bin/clangd clangd /usr/bin/clangd-8 1
+# End
+
 RUN wget https://raw.github.com/ohmybash/oh-my-bash/master/tools/install.sh -O - | bash || true
 
 RUN sudo rm -rf /var/lib/apt/lists/*
