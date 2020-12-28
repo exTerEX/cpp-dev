@@ -14,6 +14,7 @@ RUN apt-get -y install --no-install-recommends \
     ninja-build \
     gdb
 
+# Remove python2, etc. and leftovers
 RUN apt-get -y autoremove python2 \
     && rm -rf /etc/python && rm -rf /etc/python2.7
 
