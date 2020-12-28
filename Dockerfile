@@ -12,7 +12,8 @@ RUN apt-get -y install --no-install-recommends \
     locales \
     cmake \
     ninja-build \
-    gdb
+    gdb \
+    python3-dev
 
 # Remove python2, etc. and leftovers
 RUN apt-get -y autoremove python2 \

@@ -1,6 +1,6 @@
 # Cpp-Docker development container
 
-A C/C++ development container for [Visual Studio Code](https://code.visualstudio.com/) with [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension. It is a linux environment based on the latest LTS distribution of debian and the image is based on `gcc:latest` by Docker. It contains a few different versions of `gcc`. It is installed with [Oh My Bash](https://ohmybash.nntoan.com/). `CMake` and `ninja-build` is installed for building C/C++ applications. `pip` for Python3 is provided for adding development tools from PyPi. `clang-format` and `clangd` is provided as a utility tool.
+A C/C++ development container for [Visual Studio Code](https://code.visualstudio.com/) with [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension. It is a linux environment based on the latest LTS distribution of debian and the image is based on `gcc:latest` by Docker. It contains a few different versions of `gcc`. It is installed with [Oh My Bash](https://ohmybash.nntoan.com/). `CMake` and `ninja-build` is installed for building C/C++ applications. `pip` for Python3 is provided for adding development tools from PyPi. `Python3-dev` is provided to help build python bindings. `clang-format` and `clangd` is provided as a utility tool.
 
 ## Example
 
