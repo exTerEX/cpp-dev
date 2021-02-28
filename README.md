@@ -1,6 +1,6 @@
 # Cpp-Docker development container
 
-A C/C++ development container for [Visual Studio Code](https://code.visualstudio.com/) with [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension. It is a linux environment based on the latest LTS distribution of debian and the image is based on `gcc:latest` by Docker. It contains a few different versions of `gcc`. It is installed with [Oh My Bash](https://ohmybash.nntoan.com/). `CMake` and `ninja-build` is installed for building C/C++ applications. `pip` for Python3 is provided for adding development tools from PyPi. `Python3-dev` is provided to help build python bindings. `clang-format` and `clangd` is provided as a utility tool.
+A C/C++ development container for [Visual Studio Code](https://code.visualstudio.com/) with [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension. It is a linux environment based on the latest LTS distribution of ubuntu by Docker. The provided c/c++ compiler is `clang` and comes with a few clang related tools. It is installed with [Oh My Bash](https://ohmybash.nntoan.com/). `CMake` and `ninja-build` is installed for building C/C++ applications. `Python3` and `pip` is provided for adding development tools from PyPi. `Python3-dev` is provided to help build python bindings.
 
 ## Example
 
@@ -19,11 +19,22 @@ To use as development container for your project create, `.devcontainer/devconta
 }
 ```
 
+To customize user in container use,
+```json
+{
+    "containerUser": "vscode",
+    "updateRemoteUserUID": false
+}
+```
+
+in additon to the codeblock above. `"updateRemoteUserUID": false` prevents container to rebuild to update GID/UID if `containerUser` or `remoteUser` is specified.
+
+
 For configuration of `devcontainer.json` see [code.visualstudio.com](https://code.visualstudio.com/docs/remote/devcontainerjson-reference)
 
 ## Build
 
-The image is updated every time the `main` branch of the repository is updated and once a week on a fixed schedule (see [workflows/ci.yml](.github/workflows/ci.yml)).
+The image is updated every time the `main` branch of the repository is updated and on a fixed schedule (see [workflows/ci.yml](.github/workflows/ci.yml)).
 
 ## License
 
