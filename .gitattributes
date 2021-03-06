@@ -1,8 +1,0 @@
-* text=auto
-
-Dockerfile text
-*.json text
-*.yml  text
-
-.gitattributes export-ignore
-.gitignore export-ignore
