@@ -25,6 +25,20 @@ RUN sudo apt update \
     clang-tidy \
     clangd
 
+#RUN sudo apt --assume-yes install --no-install-recommends \
+#    zlib1g \
+#    libbz2-dev \
+#    curl
+
+#WORKDIR /tmp/
+#RUN git clone https://github.com/Kitware/CMake.git \
+#    && cd CMake && git checkout release \
+#    && sudo ./bootstrap --system-curl --system-bzip2 --system-zlib \
+#    --no-system-jsoncpp --prefix=/usr/local --bindir=/usr/local/bin \
+#    --datadir=/usr/local/share; \
+#    make && sudo make install \
+#    && sudo rm -rf /tmp/CMake
+
 RUN sudo apt --assume-yes install --no-install-recommends \
     cmake \
     ninja-build
