@@ -12,6 +12,50 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+FROM ubuntu:latest AS build
+
+ENV TZ UTC
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+    && echo $TZ > /etc/timezone
+
+RUN apt update \
+    && apt --assume-yes install --no-install-recommends \
+    clang \
+    make \
+    unzip \
+    python3
+
+RUN apt --assume-yes install --no-install-recommends \
+    libcurl4-openssl-dev \
+    libexpat1-dev \
+    libjsoncpp-dev \
+    zlib1g-dev \
+    libbz2-dev \
+    liblzma-dev \
+    libnghttp2-dev \
+    libzstd-dev \
+    librhash-dev \
+    libuv1-dev \
+    libarchive-dev
+
+ADD https://github.com/Kitware/CMake/archive/release.zip /tmp/cmake.zip
+RUN unzip -q /tmp/cmake.zip -d /tmp \
+    && rm -r /tmp/cmake.zip \
+    && cd /tmp/CMake-release \
+    && ./bootstrap --system-libs --no-qt-gui --prefix=/usr/local \
+    && make \
+    && make install \
+    && rm -r /tmp/CMake-release
+
+ADD https://github.com/ninja-build/ninja/archive/release.zip /tmp/ninja.zip
+RUN unzip -q /tmp/ninja.zip -d /tmp \
+    && rm -r /tmp/ninja.zip \
+    && cd /tmp/ninja-release \
+    && python3 configure.py --bootstrap \
+    && mv /tmp/ninja-release/ninja /usr/local/bin \
+    && rm -r /tmp/ninja-release
+
 FROM exterex/base-dev
 
 ENV LANG C.UTF-8
@@ -25,23 +69,20 @@ RUN sudo apt update \
     clang-tidy \
     clangd
 
-#RUN sudo apt --assume-yes install --no-install-recommends \
-#    zlib1g \
-#    libbz2-dev \
-#    curl
-
-#WORKDIR /tmp/
-#RUN git clone https://github.com/Kitware/CMake.git \
-#    && cd CMake && git checkout release \
-#    && sudo ./bootstrap --system-curl --system-bzip2 --system-zlib \
-#    --no-system-jsoncpp --prefix=/usr/local --bindir=/usr/local/bin \
-#    --datadir=/usr/local/share; \
-#    make && sudo make install \
-#    && sudo rm -rf /tmp/CMake
-
 RUN sudo apt --assume-yes install --no-install-recommends \
-    cmake \
-    ninja-build
+    libcurl4 \
+    libjsoncpp1 \
+    librhash0 \
+    libuv1 \
+    libarchive13 \
+    zlib1g \
+    libexpat1
+
+COPY --from=build /usr/local/bin /usr/local/bin
+COPY --from=build /usr/local/share/cmake-* /usr/local/share/cmake
+
+RUN VERSION=`cmake --version | grep -o -P '\s\d\.\d\d' | sed 's/^ *//g'` \
+    && sudo mv /usr/local/share/cmake /usr/local/share/cmake-${VERSION}
 
 RUN sudo apt --assume-yes install --no-install-recommends \
     python3 \
