@@ -14,17 +14,13 @@
 
 FROM ubuntu:latest AS build
 
-ENV TZ UTC
-
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
-    && echo $TZ > /etc/timezone
-
 RUN apt update \
     && apt --assume-yes install --no-install-recommends \
     clang \
     make \
     unzip \
-    python3
+    python3 \
+    tzdata
 
 RUN apt --assume-yes install --no-install-recommends \
     libcurl4-openssl-dev \
@@ -55,6 +51,8 @@ RUN unzip -q /tmp/ninja.zip -d /tmp \
     && python3 configure.py --bootstrap \
     && mv /tmp/ninja-release/ninja /usr/local/bin \
     && rm -r /tmp/ninja-release
+
+RUN rm -rf /var/lib/apt/lists/*
 
 FROM exterex/base-dev
 
