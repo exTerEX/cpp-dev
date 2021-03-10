@@ -37,22 +37,16 @@ RUN apt --assume-yes install --no-install-recommends \
 
 ADD https://github.com/Kitware/CMake/archive/release.zip /tmp/cmake.zip
 RUN unzip -q /tmp/cmake.zip -d /tmp \
-    && rm -r /tmp/cmake.zip \
     && cd /tmp/CMake-release \
     && ./bootstrap --system-libs --no-qt-gui --prefix=/usr/local \
     && make \
-    && make install \
-    && rm -r /tmp/CMake-release
+    && make install
 
 ADD https://github.com/ninja-build/ninja/archive/release.zip /tmp/ninja.zip
 RUN unzip -q /tmp/ninja.zip -d /tmp \
-    && rm -r /tmp/ninja.zip \
     && cd /tmp/ninja-release \
     && python3 configure.py --bootstrap \
-    && mv /tmp/ninja-release/ninja /usr/local/bin \
-    && rm -r /tmp/ninja-release
-
-RUN rm -rf /var/lib/apt/lists/*
+    && mv /tmp/ninja-release/ninja /usr/local/bin
 
 FROM exterex/base-dev
 
