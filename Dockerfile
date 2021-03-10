@@ -31,11 +31,11 @@ RUN sudo apt --assume-yes install --no-install-recommends \
 
 RUN sudo apt --assume-yes install --no-install-recommends \
     python3 \
-    python3-pip \
-    python3-dev
+    python3-pip
 
-RUN sudo update-alternatives --install /usr/local/bin/python python /usr/bin/python3 1 \
-    && sudo update-alternatives --install /usr/local/bin/pip pip /usr/bin/pip3 1
+RUN cd /usr/bin \
+    && sudo ln -s python3 python \
+    && sudo ln -s pip3 pip
 
 RUN sudo rm -rf /var/lib/apt/lists/*
 
