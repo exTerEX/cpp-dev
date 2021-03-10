@@ -65,7 +65,8 @@ RUN sudo apt update \
     clang \
     clang-format \
     clang-tidy \
-    clangd
+    clangd \
+    lldb
 
 RUN sudo apt --assume-yes install --no-install-recommends \
     libcurl4 \
