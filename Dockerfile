@@ -22,7 +22,8 @@ RUN sudo apt update \
     && sudo apt --assume-yes install --no-install-recommends \
     clang \
     lldb \
-    clang-format
+    clang-format \
+    clang-tidy
 
 RUN sudo apt --assume-yes install --no-install-recommends \
     valgrind
