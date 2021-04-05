@@ -43,7 +43,33 @@ RUN cd /usr/bin \
     && sudo ln -s python3 python \
     && sudo ln -s pip3 pip
 
-RUN sudo rm -rf /var/lib/apt/lists/*
+ENV CC /usr/bin/clang
+ENV CXX /usr/bin/clang++
+ENV VCPKG_PATH=/opt/vcpkg/bin
+
+WORKDIR /tmp
+RUN sudo apt --assume-yes install --no-install-recommends \
+       zip \
+       unzip \
+       pkg-config \
+    && sudo apt-get clean \
+    && sudo rm -rf /var/lib/apt/lists/*; \
+    git clone https://github.com/microsoft/vcpkg
+
+ENV VCPKG_VERSION 2020.11
+
+WORKDIR /tmp/vcpkg
+RUN git checkout tags/${VCPKG_VERSION} \
+    && rm -rf *.md *.txt .git*
+
+WORKDIR /usr/local/lib
+RUN sudo mv /tmp/vcpkg . \
+    && cd vcpkg; \
+    ./bootstrap-vcpkg.sh -disableMetrics -useSystemBinaries \
+    && rm -rf /tmp/vcpkg bootstrap* docs \
+    && sudo ln -s /usr/local/lib/vcpkg/vcpkg /usr/local/bin \
+    && sudo vcpkg integrate install \
+    && sudo vcpkg integrate bash
 
 ENV DEBIAN_FRONTEND dialog
 
